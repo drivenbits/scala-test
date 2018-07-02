@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>SCALA COMPUTING - Front End Exam</title>
+    
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="js/jquery.bootgrid.css" rel="stylesheet" />
+    <script src="js/modernizr-2.8.1.js"></script>
+
+   	<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+	<script type="text/javascript">
+	    $(document).ready(function(e) {
+	    $.getJSON( "frontend-exam.json" , function( result ){
+	        alert(result.start.count);
+	    });
+	});
+	</script>
+   	<style>
+   		.body-nav{
+   			float: left;
+			position:fixed;
+ 			background-image: url('images/nav-bg.png');
+   		    width: 232px;
+        	height: 98vh;
+			 
+  		}
+   		.body-content{
+   		    position: absolute;
+    		left: 250px;
+    		width:750px;
+   			overflow: hidden;
+   			background-color: #FAFAFA;
+			height: 98vh;
+    		margin: auto;
+      		}
+   	body
+   	{
+   		padding: 0;
+   		font-family: Tw Cen MT;
+	   	font-size: 1em;
+
+   	}
+   	.nav-link{
+	   	font-family: Tw Cen MT;
+	   	color: #FFFFFF;
+	   	font-size: 1em;
+	   	text-decoration:none;
+   	}
+</style>
+   </head>
+  <body bgcolor="#FAFAFA">
+    <div class="body-main">
+        <div class="body-nav">
+            <img border="0" src="images/logo.png" width="232" height="110">
+			<br><br>
+            <a href="#" class="nav-link">JOBS</a><br>
+            <a href="#" class="nav-link">FILES</a><br>
+            <a href="#" class="nav-link">WORKFLOWS</a><br>
+            <a href="#" class="nav-link">PRESETS</a><br>
+            <a href="#" class="nav-link">SOFTWARE</a><br>
+            <a href="#" class="nav-link">USAGE</a><br>
+            <a href="#" class="nav-link">CONNECTIONS</a><br>
+            <a href="#" class="nav-link">DESKTOP</a>
+        </div>
+        <div class="body-content">
+          <div align=right>
+          Hi, Skymet
+          </div>
+
+			    <div class="container-fluid">
+			        <div class="row">
+			            <div class="col-md-9">
+			                <table id="grid" class="table table-condensed table-hover table-striped">
+			                    <thead>
+			                        <tr>
+			                            <th data-column-id="id" data-identifier="true">Name</th>
+			                            <th data-column-id="sender" data-order="asc">Type</th>
+			                            <th data-column-id="quantity" data-formatter="date">Date Modified</th>
+			                            <th data-column-id="quantity" data-formatter="numeric">Size</th>
+			                        </tr>
+			                    </thead>
+			                    <tbody>
+			                        <tr>
+			                            <td>zip</td>
+			                            <td>Directory</td>
+			                            <td>5/10/2018 17:39:27</td>
+			                            <td>6 KB</td>
+			                        </tr>
+			                        <tr>
+			                            <td>presets</td>
+			                            <td>Directory</td>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">5/10/2018 
+										17:22:50</span></span></td>
+			                            <td>6 KB</td>
+			                        </tr>
+			                        <tr>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">workflow</span></span></td>
+			                            <td>Directory</td>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">6/11/2018 
+										17:23:11</span></span></td>
+			                            <td>6 KB</td>
+			                        </tr>
+			                        <tr>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">software</span></span></td>
+			                            <td>Directory</td>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">6/14/2018 
+										14:35:36</span></span></td>
+			                            <td>6 KB</td>
+			                        </tr>
+			                        <tr>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">mmm_data</span></span></td>
+			                            <td>Directory</td>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">6/14/2018 
+										15:37:08</span></span></td>
+			                            <td>6 KB</td>
+			                        </tr>
+			                        <tr>
+			                            <td>jobs</td>
+			                            <td>Directory</td>
+			                            <td><span aria-labelledby="value">
+										<span class="objectBox objectBox-string">6/15/2018 
+										13:43:47</span></span></td>
+			                            <td>18 KB</td>
+			                        </tr>
+			                    </tbody>
+			                </table>
+			            </div>
+			        </div>
+			    </div>
+
+
+      </div>
+    </div>
+    
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.bootgrid.js"></script>
+    <script>
+        $(function ()
+        {
+            var data = [];
+
+            var grid = $("#grid").bootgrid({
+                pagination: 3,
+                selection: true,
+                multiSelect: true,
+                formatters: {
+                    "quantity": function (column, row)
+                    {
+                        return "<input id=\"" + row.id + "-quantity\" type=\"text\" class=\"quantity\" value=\"" + row.quantity + "\" />";
+                    }
+                }
+            }).on("loaded.rs.jquery.bootgrid", function (e)
+            {
+                // Resets the selected data array on reload, searching, sorting or changing page
+                data = [];
+
+                grid.on("keyup", "input.quantity", function ()
+                {
+                    e.stopPropagation();
+
+                    // Array.first is an extension of bootgrid
+                    var $this = $(this),
+                        rowId = +$this.attr("id").split("-")[0], // "+" to convert the a string to an integer
+                        item = data.first(function (item) { return item.id === rowId; });
+                    if (item != null)
+                    {
+                        item.quantity = $this.val();
+                    }
+                });
+            }).on("selected.rs.jquery.bootgrid", function (e, selectedRows)
+            {
+                var row, quantity;
+                for (var i = 0; i < selectedRows.length; i++)
+                {
+                    row = selectedRows[i];
+
+                    // Array.contains is an extension of bootgrid
+                    if (!data.contains(function (item) { return item.id === row.id; }))
+                    {
+                        quantity = grid.find("#" + row.id + "-quantity").val();
+                        data.push({ id: row.id, quantity: quantity || 0 });
+                    }
+                }
+            }).on("deselected.rs.jquery.bootgrid", function (e, deselectedRows)
+            {
+                var row;
+                for (var i = 0; i < deselectedRows.length; i++)
+                {
+                    row = deselectedRows[i];
+                    for (var j = 0; j < data.length; j++)
+                    {
+                        if (data[j].id === row.id)
+                        {
+                            data.splice(j, 1);
+                            return;
+                        }
+                    }
+                }
+            });
+
+            $("#send").on("click", function ()
+            {
+                var params = $.param({ "": data });
+                alert(decodeURIComponent(params));
+            });
+        });
+    </script>
+  </body>
+</html>
